@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('house_id')->constrained();
             $table->string('room_number');
             $table->enum('type', ['single', 'shared-standard', 'shared-master']);
-            $table->integer('monthly_price');
+            $table->decimal('weekly_price', 2);
             $table->integer('capacity');
             $table->boolean('is_occupied')->default(false);
             $table->timestamps();

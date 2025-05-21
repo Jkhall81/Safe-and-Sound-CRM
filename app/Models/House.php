@@ -7,19 +7,23 @@ use Illuminate\Database\Eloquent\Model;
 class House extends Model
 {
     //
-    public function manager() {
+    public function manager()
+    {
         return $this->hasOne(HouseManager::class);
     }
 
-    public function licenses() {
+    public function licenses()
+    {
         return $this->hasMany(License::class);
     }
 
-    public function rooms() {
+    public function rooms()
+    {
         return $this->hasMany(Room::class);
     }
 
-    public function residents() {
+    public function residents()
+    {
         return $this->hasMany(Resident::class);
     }
 }
