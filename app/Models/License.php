@@ -28,4 +28,9 @@ class License extends Model
     {
         return $this->belongsTo(House::class);
     }
+
+    public function isExpired(): bool
+    {
+        return $this->expiration_date->isPast();
+    }
 }

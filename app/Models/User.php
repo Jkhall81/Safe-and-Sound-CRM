@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'resident_id',
+        'house_manager_id'
     ];
 
     /**
@@ -44,5 +47,35 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function resident()
+    {
+        return $this->belongsTo(Resident::class);
+    }
+
+    public function houseManager()
+    {
+        return $this->belongsTo(HouseManager::class);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isTech(): bool
+    {
+        return $this->role === 'tech';
+    }
+
+    public function isResident(): bool
+    {
+        return $this->resident_id !== null;
+    }
+
+    public function isHouseManager(): bool
+    {
+        return $this->house_manager_id !== null;
     }
 }

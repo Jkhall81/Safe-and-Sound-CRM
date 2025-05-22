@@ -33,4 +33,24 @@ class Room extends Model
     {
         return $this->hasMany(Resident::class);
     }
+
+    public function isSingle(): bool
+    {
+        return $this->type === 'single';
+    }
+
+    public function isShared(): bool
+    {
+        return str_starts_with($this->type, 'shared-');
+    }
+
+    public function markAsOccupied(): void
+    {
+        $this->update(['is_occupied' => true]);
+    }
+
+    public function markAsVacant(): void
+    {
+        $this->update(['is_occupied' => false]);
+    }
 }

@@ -15,13 +15,15 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
+            $table->string('slug')->unique();
 
             // Location
             $table->string('address');
             $table->string('city');
             $table->string('state', 2);
             $table->string('zip_code', 10);
-            $table->point('coordinates')->nullable();
+            $table->string('coordinates')->nullable();
+            $table->string('timezone')->default('America/Phoenix');
 
             // Management
             $table->foreignId('house_manager_id')->constrained('users');
@@ -35,6 +37,8 @@ return new class extends Migration
             $table->date('license_2_expiration')->nullable();
 
             // Financials
+            $table->decimal('monthly_operating_cost', 10, 2)->default(0);
+            $table->decimal('average_weekly_revenue', 10, 2)->default(0);
 
             // Status
             $table->enum('status', ['active', 'maintenance', 'closed'])->default('active');
@@ -44,6 +48,10 @@ return new class extends Migration
             // Timestamps
             $table->timestamps();
             $table->softDeletes();
+
+            // Indexes
+            $table->index('status');
+            $table->index('license_expiration');
         });
     }
 

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Builder;
 
 class HouseManager extends Model
 {
@@ -27,6 +28,7 @@ class HouseManager extends Model
         'is_cpr_certified' => 'boolean',
     ];
 
+    // RELATIONSHIPS
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -35,5 +37,34 @@ class HouseManager extends Model
     public function house()
     {
         return $this->belongsTo(House::class);
+    }
+
+    // SCOPES
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->whereNull('end_date')->orWhere('end-date', '>', now());
+    }
+
+    public function scopeCurrent(Builder $query): Builder
+    {
+        return $query->where('start_date', '<=', now())->where(function ($q) {
+            $q->whereNull('end_date')->orWhere('end_date', '>', now());
+        });
+    }
+
+    // HELPERS
+    public function isActive(): bool
+    {
+        return is_null($this->end_date) || $this->end_date > now();
+    }
+
+    public function isCprCurrent(): bool
+    {
+        return $this->is_cpr_certified && $this->cpr_expiration_date > now();
+    }
+
+    public function terminate(): void
+    {
+        $this->update(['end_date' => now()]);
     }
 }

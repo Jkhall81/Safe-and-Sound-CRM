@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('housemanagers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('house_id')->constrained()->unique();
             $table->date('start_date');
             $table->date('end_date')->nullable();
@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('cpr_certification_number')->nullable();
             $table->date('cpr_expiration_date');
             $table->timestamps();
+            $table->index(['house_id', 'end_date']);
         });
     }
 
