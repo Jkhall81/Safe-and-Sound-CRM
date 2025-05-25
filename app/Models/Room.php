@@ -31,7 +31,7 @@ class Room extends Model
 
     public function residents()
     {
-        return $this->hasMany(Resident::class);
+        return $this->hasMany(Resident::class)->where('status', 'active');
     }
 
     public function isSingle(): bool

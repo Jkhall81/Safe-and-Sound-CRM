@@ -2,9 +2,14 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use App\Models\House;
+use App\Models\HouseManager;
+use App\Role;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,9 +20,47 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $admin = User::create([
+            'name' => 'Admin User',
+            'email' => 'admin@example.com',
+            'password' => Hash::make('password'),
+            'role' => Role::ADMIN->value,
+        ]);
+
+        $house = House::create([
+            'name' => 'Test House',
+            'slug' => 'test-house',
+            'address' => '123 Main St',
+            'city' => 'Testville',
+            'state' => 'TX',
+            'zip_code' => '75001',
+            'max_residents' => 10,
+            'current_residents_count' => 0,
+            'status' => 'active',
+            'opening_date' => now(),
+        ]);
+
+        $manager = User::create([
+            'name' => 'House Manager',
+            'email' => 'manager@example.com',
+            'password' => Hash::make('password'),
+            'role' => Role::HOUSE_MANAGER->value,
+        ]);
+
+        HouseManager::create([
+            'user_id' => $manager->id,
+            'house_id' => $house->id,
+            'start_date' => now()->subMonth(),
+            'is_cpr_certified' => true,
+            'cpr_certification_number' => 'CPR-TEST-123',
+            'cpr_expiration_date' => now()->addYear(),
+        ]);
+
+        $house->house_manager_id = $manager->id;
+        $house->save();
+
+        $this->call([
+            HouseSeeder::class,
         ]);
     }
 }

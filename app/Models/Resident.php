@@ -11,7 +11,7 @@ class Resident extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        'name',
         'house_id',
         'room_id',
         'move_in_date',
@@ -37,10 +37,5 @@ class Resident extends Model
     public function room()
     {
         return $this->belongsTo(Room::class);
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
     }
 }

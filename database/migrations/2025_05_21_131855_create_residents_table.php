@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('residents', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
             $table->foreignId('house_id')->constrained();
             $table->foreignId('room_id')->constrained();
+            $table->string('name');
             $table->date('move_in_date');
             $table->date('move_out_date')->nullable();
             $table->enum('status', ['active', 'on_leave', 'discharged']);

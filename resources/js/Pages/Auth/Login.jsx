@@ -32,7 +32,7 @@ export default function Login({ status, canResetPassword }) {
             )}
 
             <form
-                class="min-h-[70vh] px-10 max-w-[800px] mx-auto"
+                class="min-h-[70vh] px-10 text-black max-w-[800px] mx-auto"
                 onSubmit={submit}
             >
                 <div class="pt-10">

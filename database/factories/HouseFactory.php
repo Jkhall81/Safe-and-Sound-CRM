@@ -4,6 +4,9 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
+use App\Models\Room;
+use App\Models\Resident;
+use App\Models\HouseManager;
 use Illuminate\Support\Str;
 
 /**
@@ -38,7 +41,7 @@ class HouseFactory extends Factory
             // Management
             'house_manager_id' => User::factory(),
             'max_residents' => $this->faker->numberBetween(10, 13),
-            'current_residents_count' => $this->faker->numberBetween(10, 13),
+            'current_residents_count' => 0,
 
             // Licensing
             'license_number_1' => strtoupper(Str::random(10)),
@@ -47,7 +50,7 @@ class HouseFactory extends Factory
             'license_2_expiration' => $this->faker->boolean ? $this->faker->dateTimeBetween('+1 year', '+3 years') : null,
 
             // Financials
-            'monthly_operatin_cost' => $this->faker->randomFloat(2, 1000, 10000),
+            'monthly_operating_cost' => $this->faker->randomFloat(2, 1000, 10000),
             'average_weekly_revenue' => $this->faker->randomFloat(2, 500, 5000),
 
             // Status
@@ -55,5 +58,50 @@ class HouseFactory extends Factory
             'opening_date' => $this->faker->dateTimeBetween('-5 years', 'now'),
             'closing_date' => $this->faker->boolean(20) ? $this->faker->dateTimeBetween('now', '+2 years') : null,
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (\App\Models\House $house) {
+
+            if ($house->status === 'active') {
+                HouseManager::create([
+                    'user_id' => $house->house_manager_id,
+                    'house_id' => $house->id,
+                    'start_date' => now()->subMonths(rand(0, 24)),
+                    'end_date' => null,
+                    'is_cpr_certified' => true,
+                    'cpr_certification_number' => strtoupper(fake()->bothify('CPR-#####')),
+                    'cpr_expiration_date' => now()->addYears(rand(1, 3)),
+                ]);
+            }
+
+            $remainingCapacity = $house->max_residents;
+            $totalResidents = 0;
+
+            $rooms = Room::factory()->count(rand(5, 8))->create([
+                'house_id' => $house->id,
+            ]);
+
+            foreach ($rooms as $room) {
+                if ($remainingCapacity <= 0) {
+                    break;
+                }
+
+                $maxResidentsForRoom = min($room->capacity, $remainingCapacity);
+                $residentCount = rand(1, $maxResidentsForRoom);
+
+                Resident::factory()->count($residentCount)->create([
+                    'house_id' => $house->id,
+                    'room_id' => $room->id,
+                ]);
+
+                $remainingCapacity -= $residentCount;
+                $totalResidents += $residentCount;
+            }
+
+            $house->current_residents_count = $totalResidents;
+            $house->save();
+        });
     }
 }

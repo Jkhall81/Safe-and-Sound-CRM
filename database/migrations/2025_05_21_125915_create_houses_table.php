@@ -26,13 +26,13 @@ return new class extends Migration
             $table->string('timezone')->default('America/Phoenix');
 
             // Management
-            $table->foreignId('house_manager_id')->constrained('users');
+            $table->foreignId('house_manager_id')->nullable()->constrained('users');
             $table->integer('max_residents');
             $table->integer('current_residents_count')->default(0);
 
             // Licensing
-            $table->string('license_number_1');
-            $table->date('license_1_expiration');
+            $table->string('license_number_1')->nullable();
+            $table->date('license_1_expiration')->nullable();
             $table->string('license_number_2')->nullable();
             $table->date('license_2_expiration')->nullable();
 
