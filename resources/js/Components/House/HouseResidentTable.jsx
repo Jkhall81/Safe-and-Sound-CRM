@@ -2,7 +2,7 @@ import { router } from "@inertiajs/react";
 
 export const HouseResidentTable = ({ house }) => {
     return (
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg p-8">
+        <div className="relative overflow-x-auto shadow-md rounded-2xl p-12 bg-gray-800 m-8">
             <h1 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">
                 {house.name}
             </h1>

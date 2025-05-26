@@ -24,8 +24,12 @@ class AppServiceProvider extends ServiceProvider
     {
         Vite::prefetch(concurrency: 3);
 
-        Inertia::share('houses', function () {
-            return House::select('name', 'slug')->get();
-        });
+        Inertia::share([
+            'houses' => fn() => House::select('name', 'slug')->get(),
+            'flash' => fn() => [
+                'success' => session('success'),
+                'error' => session('error'),
+            ]
+        ]);
     }
 }

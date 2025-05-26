@@ -97,4 +97,9 @@ class House extends Model
         }
         return $this->license_expiration < now()->addDays(30) ? 'expiring_soon' : 'valid';
     }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 }

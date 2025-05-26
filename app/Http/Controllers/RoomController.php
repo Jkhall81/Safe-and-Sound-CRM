@@ -14,7 +14,7 @@ class RoomController extends Controller
     {
         return Inertia::render('Rooms/Show', [
             'room' => $room->load('residents', 'house'),
-            'houseslug' => $room->house->slug,
+            'houseSlug' => $room->house->slug,
         ]);
     }
 
@@ -53,7 +53,5 @@ class RoomController extends Controller
             'status' => 'active',
             'move_in_date' => now(),
         ]);
-        return redirect()->route('house.show', $room->house->slug)
-            ->with('success', 'Resident info updated successfully.');
     }
 }

@@ -1,9 +1,11 @@
 import { usePage, Link } from "@inertiajs/react";
 import { HouseDropDown } from "./HouseDropDown";
+import { cn } from "@/lib/utils";
 
 export const Navbar = () => {
     const { user } = usePage().props.auth;
     const { houses } = usePage().props;
+    const { url } = usePage();
 
     return (
         <nav className="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
@@ -25,7 +27,11 @@ export const Navbar = () => {
                         <li>
                             <Link
                                 href="/"
-                                className="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent"
+                                className={cn(
+                                    url === "/"
+                                        ? "bg-blue-700 md:text-blue-700 md:dark:text-blue-500 dark:bg-blue-600 block py-2 px-3 text-white rounded-sm md:bg-transparent  md:p-0 md:dark:bg-transparent"
+                                        : "block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                                )}
                                 aria-current="page"
                             >
                                 Home
@@ -45,7 +51,11 @@ export const Navbar = () => {
                             ) : (
                                 <Link
                                     href="/login"
-                                    className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                                    className={cn(
+                                        url === "/login"
+                                            ? "bg-blue-700 md:text-blue-700 md:dark:text-blue-500 dark:bg-blue-600 block py-2 px-3 text-white rounded-sm md:bg-transparent  md:p-0 md:dark:bg-transparent"
+                                            : "block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                                    )}
                                     aria-current="page"
                                 >
                                     Login
@@ -57,7 +67,11 @@ export const Navbar = () => {
                                 <li>
                                     <Link
                                         href="#"
-                                        className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                                        className={cn(
+                                            url.startsWith("/house/")
+                                                ? "bg-blue-700 md:text-blue-700 md:dark:text-blue-500 dark:bg-blue-600 block py-2 px-3 text-white rounded-sm md:bg-transparent  md:p-0 md:dark:bg-transparent"
+                                                : "block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                                        )}
                                     >
                                         {user.role === "tech" || "admin" ? (
                                             <HouseDropDown
