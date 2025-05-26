@@ -2,26 +2,29 @@ import { usePage, useForm, router } from "@inertiajs/react";
 import { toast } from "sonner";
 import HouseLayout from "@/Layouts/HouseLayout";
 import { MyDatePicker } from "@/Components/UaTests/MyDatePicker";
+import { Select } from "@/Components/Forms/Select";
+import { TextArea } from "@/Components/Forms/TextArea";
+import { FileUpload } from "@/Components/Forms/FileUpload";
 
 export default function Show() {
     const { house } = usePage().props;
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, post, processing, errors, reset } = useForm({
         resident_id: "",
         test_date: "",
         result: "",
         notes: "",
+        attachments: [],
     });
-    console.log(house);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route("room.resident.update", room.id), {
+        post(route("ua.store", house.slug), {
+            forceFormData: true,
             onSuccess: () => {
-                console.log("Toast is being triggered");
-                toast.success("Resident Information Updated Successfully!");
+                toast.success("UA Test Information Submitted Successfully!");
 
                 setTimeout(() => {
-                    router.visit(route("house.show", houseSlug));
+                    router.visit(route("house.show", house.slug));
                 }, 2000);
             },
         });
@@ -34,34 +37,19 @@ export default function Show() {
                 className="max-w-sm mx-auto min-h-[80vh]"
             >
                 {/* Resident Name */}
-                <div className="mb-5">
-                    <label
-                        htmlFor="resident_id"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                        Resident Name
-                    </label>
-                    <select
-                        type="text"
-                        id="resident_id"
-                        name="resident_id"
-                        value={data.resident_id}
-                        onChange={(e) => setData("resident_id", e.target.value)}
-                        className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                    >
-                        <option value="">Select a resident</option>
-                        {house.residents.map((resident, index) => (
-                            <option
-                                key={`${resident.id}-${index}`}
-                                value={resident.id}
-                            >
-                                {resident.name}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+                <Select
+                    id="resident_id"
+                    label="Resident Name"
+                    value={data.resident_id}
+                    onChange={(e) => setData("resident_id", e.target.value)}
+                    options={house.active_residents.map((resident) => ({
+                        label: resident.name,
+                        value: resident.id,
+                    }))}
+                    placeholder="Select a resident"
+                />
 
-                {/* Resident Phone */}
+                {/* Date Picker */}
                 <div className="mb-5">
                     <label
                         htmlFor="resident_phone"
@@ -69,50 +57,40 @@ export default function Show() {
                     >
                         Test Date
                     </label>
-                    <MyDatePicker />
+                    <MyDatePicker
+                        value={data.test_date}
+                        onChange={(date) => setData("test_date", date)}
+                    />
                 </div>
 
-                {/* Resident Email */}
-                <div className="mb-5">
-                    <label
-                        htmlFor="resident_email"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                        Test Results
-                    </label>
-                    <select
-                        type="email"
-                        id="resident_email"
-                        name="resident_email"
-                        required
-                        value=""
-                        onChange={(e) =>
-                            setData("resident_email", e.target.value)
-                        }
-                        className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                    >
-                        <option>Pass</option>
-                        <option>Fail</option>
-                    </select>
-                </div>
+                {/* Test Result */}
+                <Select
+                    id="result"
+                    label="Test Results"
+                    value={data.result}
+                    onChange={(e) => setData("result", e.target.value)}
+                    options={[
+                        { label: "Pass", value: "pass" },
+                        { label: "Fail", value: "fail" },
+                    ]}
+                    placeholder="Select result"
+                />
 
-                {/* Weekly Price - read-only */}
-                <div className="mb-5">
-                    <label
-                        htmlFor="room_price"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                        Notes
-                    </label>
-                    <textarea
-                        type="text"
-                        id="room_price"
-                        value=""
-                        rows="8"
-                        disabled
-                        className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:text-white cursor-not-allowed"
-                    ></textarea>
-                </div>
+                {/* Notes */}
+                <TextArea
+                    id="notes"
+                    label="Notes"
+                    value={data.notes}
+                    onChange={(e) => setData("notes", e.target.value)}
+                />
+
+                {/* File Upload */}
+                <FileUpload
+                    id="attachments"
+                    label="Attach Files"
+                    multiple
+                    onChange={(e) => setData("attachments", e.target.files)}
+                />
 
                 {/* Submit Button */}
                 <button
@@ -124,7 +102,9 @@ export default function Show() {
                 </button>
                 <button
                     type="button"
-                    onClick={() => router.visit(route("house.show", houseSlug))}
+                    onClick={() =>
+                        router.visit(route("house.show", house.slug))
+                    }
                     className="text-white w-[176px] ml-8 bg-red-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800 disabled:opacity-50"
                 >
                     Go Back

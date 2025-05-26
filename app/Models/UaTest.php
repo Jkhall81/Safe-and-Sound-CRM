@@ -20,7 +20,7 @@ class UaTest extends Model
     ];
 
     protected $casts = [
-        'text_date' => 'date',
+        'test_date' => 'date',
         'attachments' => 'array',
     ];
 

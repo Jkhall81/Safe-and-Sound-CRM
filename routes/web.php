@@ -37,8 +37,8 @@ Route::post('/rooms/{room}/resident', [RoomController::class, 'updateResident'])
 // Forms
 Route::middleware(['auth', 'verified'])->group(function () {
     // Intake Form
-    Route::get('/intake-form', [IntakeFormController::class, 'create'])->name('intake.create');
-    Route::post('/intake-form', [IntakeFormController::class, 'store'])->name('intake.store');
+    Route::get('/house/{house}/intake-form', [IntakeFormController::class, 'show'])->name('intake.show');
+    Route::post('/house/{house}/intake-form', [IntakeFormController::class, 'store'])->name('intake.store');
 
     // UA Tests
     Route::get('/ua-tests/{house}', [UaTestController::class, 'show'])->name('ua.show');

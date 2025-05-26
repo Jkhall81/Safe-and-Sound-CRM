@@ -40,6 +40,11 @@ class House extends Model
         return $this->hasMany(Resident::class);
     }
 
+    public function activeResidents()
+    {
+        return $this->hasMany(Resident::class)->where('status', ['active', 'on_leave']);
+    }
+
     public function activeManagers()
     {
         return $this->hasMany(HouseManager::class)->whereNull('end_date');

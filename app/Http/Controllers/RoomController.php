@@ -14,6 +14,7 @@ class RoomController extends Controller
     {
         return Inertia::render('Rooms/Show', [
             'room' => $room->load('residents', 'house'),
+            'house' => $room->house,
             'houseSlug' => $room->house->slug,
         ]);
     }

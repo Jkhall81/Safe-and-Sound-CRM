@@ -13,12 +13,18 @@ class UaTestController extends Controller
     public function show(House $house)
     {
         return Inertia::render('UaTests/Show', [
-            'house' => $house->load('residents')->toArray(),
+            'house' => $house->load('activeResidents'),
         ]);
     }
 
     public function store(Request $request, House $house)
     {
+        // dd($request->all());
+
+        $request->merge([
+            'result' => strtolower($request->input('result')),
+        ]);
+
         $validated = $request->validate([
             'resident_id' => 'required|exists:residents,id',
             'test_date' => 'required|date',
@@ -33,6 +39,7 @@ class UaTestController extends Controller
                 $paths[] = $file->store('ua_tests', 'public');
             }
         }
+        // dd($request->all(), $request->hasFile('attachments'), $request->file('attachments'));
 
         UaTest::create([
             'house_id' => $house->id,
@@ -40,9 +47,7 @@ class UaTestController extends Controller
             'test_date' => $validated['test_date'],
             'result' => $validated['result'],
             'notes' => $validated['notes'] ?? null,
-            'attachments' => $paths,
-        ]);
-
-        return redirect()->route('house.show', $house->slug)->with('success', 'UA test submitted.');
+            'attachments' => json_encode($paths),
+        ]);;
     }
 }
