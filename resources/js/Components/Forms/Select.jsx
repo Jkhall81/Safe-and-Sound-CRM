@@ -5,6 +5,7 @@ export const Select = ({
     label,
     value,
     onChange,
+    text = "",
     options = [],
     optionLabelKey = "label",
     optionValueKey = "value",
@@ -17,10 +18,11 @@ export const Select = ({
         <div className="mb-5">
             <label
                 htmlFor={id}
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
             >
                 {label}
             </label>
+            <p className="text-sm mb-2 text-gray-400">{text}</p>
             <select
                 id={id}
                 name={id}

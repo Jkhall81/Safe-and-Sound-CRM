@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('house_id')->constrained();
             $table->foreignId('room_id')->constrained();
             $table->string('name');
+            $table->date('dob');
             $table->date('move_in_date');
             $table->date('move_out_date')->nullable();
             $table->enum('status', ['active', 'on_leave', 'discharged']);

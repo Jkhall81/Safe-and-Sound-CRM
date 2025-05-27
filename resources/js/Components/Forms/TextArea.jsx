@@ -2,6 +2,7 @@ export const TextArea = ({
     id,
     label,
     value,
+    text,
     onChange,
     rows = 8,
     placeholder = "",
@@ -10,10 +11,11 @@ export const TextArea = ({
         <div className="mb-5">
             <label
                 htmlFor={id}
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
             >
                 {label}
             </label>
+            <p className="text-sm mb-2 text-gray-400">{text}</p>
             <textarea
                 id={id}
                 name={id}

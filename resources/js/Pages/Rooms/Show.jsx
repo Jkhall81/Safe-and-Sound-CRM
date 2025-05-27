@@ -16,7 +16,6 @@ export default function Show() {
         e.preventDefault();
         post(route("room.resident.update", room.id), {
             onSuccess: () => {
-                console.log("Toast is being triggered");
                 toast.success("Resident Information Updated Successfully!");
 
                 setTimeout(() => {

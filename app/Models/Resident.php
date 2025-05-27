@@ -12,6 +12,7 @@ class Resident extends Model
 
     protected $fillable = [
         'name',
+        'dob',
         'house_id',
         'room_id',
         'move_in_date',
@@ -24,6 +25,7 @@ class Resident extends Model
     protected $casts = [
         'move_in_date' => 'date:Y-m-d',
         'move_out_date' => 'date:Y-m-d',
+        'dob' => 'date:Y-m-d',
         'user_id' => 'integer',
         'house_id' => 'integer',
         'room_id' => 'integer',

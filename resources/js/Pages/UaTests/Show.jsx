@@ -34,7 +34,7 @@ export default function Show() {
         <HouseLayout>
             <form
                 onSubmit={handleSubmit}
-                className="max-w-sm mx-auto min-h-[80vh]"
+                className="max-w-md mt-10 rounded-2xl bg-gray-950 p-10 mx-auto min-h-[80vh]"
             >
                 {/* Resident Name */}
                 <Select
@@ -58,6 +58,7 @@ export default function Show() {
                         Test Date
                     </label>
                     <MyDatePicker
+                        className="w-[368px]"
                         value={data.test_date}
                         onChange={(date) => setData("test_date", date)}
                     />
@@ -93,22 +94,24 @@ export default function Show() {
                 />
 
                 {/* Submit Button */}
-                <button
-                    type="submit"
-                    disabled={processing}
-                    className="text-white w-[176px] bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-50"
-                >
-                    {processing ? "Submitting..." : "Submit"}
-                </button>
-                <button
-                    type="button"
-                    onClick={() =>
-                        router.visit(route("house.show", house.slug))
-                    }
-                    className="text-white w-[176px] ml-8 bg-red-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800 disabled:opacity-50"
-                >
-                    Go Back
-                </button>
+                <div className="flex">
+                    <button
+                        type="submit"
+                        disabled={processing}
+                        className="text-white w-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-50"
+                    >
+                        {processing ? "Submitting..." : "Submit"}
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() =>
+                            router.visit(route("house.show", house.slug))
+                        }
+                        className="text-white w-full ml-8 bg-red-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800 disabled:opacity-50"
+                    >
+                        Go Back
+                    </button>
+                </div>
             </form>
         </HouseLayout>
     );
