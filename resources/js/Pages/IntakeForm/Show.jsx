@@ -1,4 +1,5 @@
 import { usePage, useForm, router } from "@inertiajs/react";
+import { useState } from "react";
 import { toast } from "sonner";
 import HouseLayout from "@/Layouts/HouseLayout";
 import { TextInput } from "@/Components/Forms/TextInput";
@@ -41,8 +42,55 @@ export default function Show() {
         move_in_date: "",
     });
 
+    const [dobError, setDobError] = useState("");
+    const [sobrietyDateError, setSobrietyDateError] = useState("");
+    const [moveInDateError, setMoveInDateError] = useState("");
+
+    console.log("DOB Error", dobError);
+
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        setDobError("");
+        setSobrietyDateError("");
+        setMoveInDateError("");
+
+        let formIsValid = true;
+
+        if (!data.dob) {
+            setDobError("Date of Birth is required.");
+            formIsValid = false;
+        }
+
+        if (!data.sobriety_date) {
+            setSobrietyDateError("Sobriety Date is required.");
+            formIsValid = false;
+        }
+
+        if (!data.move_in_date) {
+            setMoveInDateError("Move-In Date is required");
+            formIsValid = false;
+        }
+
+        if (!formIsValid) {
+            return;
+        }
+
+        post(route("intake.store", house.slug), {
+            data,
+            onSuccess: () => {
+                toast.success("Intake form submitted successfully!");
+
+                setTimeout(() => {
+                    router.visit(route("house.show", house.slug));
+                }, 2000);
+            },
+            onError: (errors) => {
+                if (errors.error) {
+                    toast.error(errors.error);
+                }
+            },
+        });
     };
 
     return (
@@ -53,15 +101,16 @@ export default function Show() {
             >
                 <h1>{house.name}</h1>
 
-                {/* Resident Full Name */}
+                {/* Resident Full Name ** */}
                 <TextInput
                     id="full_name"
+                    required
                     value={data.full_name}
                     onChange={(e) => setData("full_name", e.target.value)}
                     label="Resident Full Name"
                 />
 
-                {/* DOB */}
+                {/* DOB ** */}
                 <div className="mb-5">
                     <label
                         htmlFor="dob"
@@ -74,12 +123,16 @@ export default function Show() {
                         value={data.dob}
                         onChange={(date) => setData("dob", date)}
                     />
+                    {dobError && (
+                        <p className="text-red-500 text-sm">{dobError}</p>
+                    )}
                 </div>
 
-                {/* Phone Number */}
+                {/* Phone Number ** */}
                 <MultiSelectInput
                     id="phones"
                     label="Phone Number"
+                    required
                     value={data.phones}
                     onChange={(updated) => setData("phones", updated)}
                     selectOptions={["Mobile", "Home", "Work"]}
@@ -88,6 +141,7 @@ export default function Show() {
                 {/* Drivers License Number */}
                 <TextInput
                     id="dl_number"
+                    required
                     value={data.dl_number}
                     onChange={(e) => setData("dl_number", e.target.value)}
                     label="Drivers License Number"
@@ -96,21 +150,23 @@ export default function Show() {
                 {/* Last Known Address */}
                 <TextInput
                     id="last_address"
+                    required
                     value={data.last_address}
-                    onChange={(e) => setData("Last_address", e.target.value)}
+                    onChange={(e) => setData("last_address", e.target.value)}
                     label="Last Known Address"
                 />
 
-                {/* Email */}
+                {/* Email ** */}
                 <MultiSelectInput
                     id="email"
+                    required
                     label="Email"
                     value={data.email}
                     onChange={(updated) => setData("email", updated)}
                     selectOptions={["Personal", "Work"]}
                 />
 
-                {/* Sobriety Date */}
+                {/* Sobriety Date ** */}
                 <div className="mb-5">
                     <label
                         htmlFor="sobriety_date"
@@ -123,13 +179,19 @@ export default function Show() {
                         value={data.sobriety_date}
                         onChange={(date) => setData("sobriety_date", date)}
                     />
+                    {sobrietyDateError && (
+                        <p className="text-red-500 text-sm">
+                            {sobrietyDateError}
+                        </p>
+                    )}
                 </div>
 
-                {/* Referred By */}
+                {/* Referred ** By */}
                 <Select
                     id="referred_by"
                     label="Referred By"
                     value={data.referred_by}
+                    required
                     onChange={(e) => setData("referred_by", e.target.value)}
                     options={[
                         "Google/Web Search",
@@ -147,9 +209,10 @@ export default function Show() {
                     placeholder="Please select an option"
                 />
 
-                {/* Drug of Choice */}
+                {/* Drug of Choice ** */}
                 <TextArea
                     id="drug_of_choice"
+                    required
                     label="Drug of Choice"
                     value={data.drug_of_choice}
                     onChange={(e) => setData("drug_of_choice", e.target.value)}
@@ -159,7 +222,8 @@ export default function Show() {
                 <Select
                     id="car"
                     label="Car"
-                    value={data.referred_by}
+                    required
+                    value={data.car}
                     onChange={(e) => setData("car", e.target.value)}
                     options={["Yes", "No"].map((item) => ({
                         value: item,
@@ -172,7 +236,7 @@ export default function Show() {
                 <TextArea
                     id="car_make_and_model"
                     label="Car Make and Model"
-                    value={data.drug_of_choice}
+                    value={data.car_make_and_model}
                     onChange={(e) =>
                         setData("car_make_and_model", e.target.value)
                     }
@@ -192,6 +256,7 @@ export default function Show() {
                 <Select
                     id="program_fee"
                     label="Program Fee"
+                    required
                     text="You will be committing to paying this amount weekly"
                     value={data.program_fee}
                     onChange={(e) => setData("program_fee", e.target.value)}
@@ -213,6 +278,7 @@ export default function Show() {
                 {/* Covid Exposure */}
                 <Select
                     id="covid_exposure"
+                    required
                     label=""
                     text="Have you been exposed to COVID-19 in the last two weeks?"
                     value={data.covid_exposure}
@@ -228,6 +294,7 @@ export default function Show() {
                 <Select
                     id="positive_covid_test"
                     label=""
+                    required
                     text="Have you tested positive for COVID in the last two weeks?"
                     value={data.positive_covid_test}
                     onChange={(e) =>
@@ -244,6 +311,7 @@ export default function Show() {
                 <Select
                     id="symptoms"
                     label=""
+                    required
                     text="Do you have a fever, aches, pains, sore throat, cough?"
                     value={data.symptoms}
                     onChange={(e) => setData("symptoms", e.target.value)}
@@ -258,6 +326,7 @@ export default function Show() {
                 <Select
                     id="covid_swear"
                     label=""
+                    required
                     text="I swear to the best of my knowledge I do not have COVID-19."
                     value={data.covid_swear}
                     onChange={(e) => setData("covid_swear", e.target.value)}
@@ -274,6 +343,7 @@ export default function Show() {
                 {/* Current Medications */}
                 <TextArea
                     id="current_meds"
+                    required
                     text="If none, type 'NA'"
                     label="Current Medications"
                     value={data.current_meds}
@@ -284,6 +354,7 @@ export default function Show() {
                 <TextArea
                     id="allergies"
                     text="If none, type 'NA'"
+                    required
                     label="Allergies"
                     value={data.allergies}
                     onChange={(e) => setData("allergies", e.target.value)}
@@ -293,6 +364,7 @@ export default function Show() {
                 <Select
                     id="infections"
                     label="HEP-C, AIDS, Infections"
+                    required
                     text=""
                     value={data.infections}
                     onChange={(e) => setData("infections", e.target.value)}
@@ -307,6 +379,7 @@ export default function Show() {
                 <Select
                     id="criminal_record"
                     label="Criminal Record"
+                    required
                     text=""
                     value={data.criminal_record}
                     onChange={(e) => setData("criminal_record", e.target.value)}
@@ -331,6 +404,7 @@ export default function Show() {
                 {/* Mental Illness */}
                 <Select
                     id="mental_illness"
+                    required
                     label="Have you been diagnosed with any psychological disorders?"
                     text="(Schizophrenic, Bipolar, or any other)"
                     value={data.mental_illness}
@@ -356,6 +430,7 @@ export default function Show() {
                 {/* Emergency Contact - Full Name */}
                 <TextArea
                     id="emergency_contact_name"
+                    required
                     text=""
                     label="Emergency Contact - Full Name"
                     value={data.emergency_contact_name}
@@ -367,6 +442,7 @@ export default function Show() {
                 {/* Emergency Contact Phone Number */}
                 <MultiSelectInput
                     id="emergency_contact_phone"
+                    required
                     label="Emergency Contact Phone Number"
                     value={data.emergency_contact_phone}
                     onChange={(updated) =>
@@ -401,6 +477,11 @@ export default function Show() {
                         value={data.move_in_date}
                         onChange={(date) => setData("move_in_date", date)}
                     />
+                    {moveInDateError && (
+                        <p className="text-red-500 text-sm">
+                            {moveInDateError}
+                        </p>
+                    )}
                 </div>
 
                 {/* Submit Button */}

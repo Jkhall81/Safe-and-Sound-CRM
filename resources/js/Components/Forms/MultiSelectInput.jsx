@@ -7,6 +7,7 @@ export const MultiSelectInput = ({
     onChange,
     selectOptions = defaultOptions,
     placeholder = "Enter value",
+    ...props
 }) => {
     const handleFieldChange = (index, field, fieldValue) => {
         const updated = [...value];
@@ -51,6 +52,7 @@ export const MultiSelectInput = ({
                             onChange={(e) =>
                                 handleFieldChange(index, "type", e.target.value)
                             }
+                            {...props}
                             className="w-[120px] bg-gray-50 border border-gray-300 text-sm rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                         >
                             {selectOptions.map((option) => (

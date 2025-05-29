@@ -8,6 +8,7 @@ export const TextInput = ({
     error,
     type = "text",
     className = "",
+    ...props
 }) => {
     return (
         <div className="mb-5">
@@ -21,6 +22,7 @@ export const TextInput = ({
                 type={type}
                 id={id}
                 name={id}
+                {...props}
                 value={value}
                 onChange={onChange}
                 className={cn(

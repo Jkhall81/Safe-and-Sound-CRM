@@ -24,6 +24,7 @@ class ResidentFactory extends Factory
             'house_id' => House::factory(),
             'room_id' => Room::factory(),
             'name' => $this->faker->name(),
+            'dob' => $this->faker->date(),
             'move_in_date' => $this->faker->dateTimeBetween('-6 months', 'now'),
             'move_out_date' => null,
             'status' => $this->faker->randomElement(['active', 'on_leave', 'discharged']),

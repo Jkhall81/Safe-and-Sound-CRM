@@ -29,6 +29,8 @@ class Resident extends Model
         'user_id' => 'integer',
         'house_id' => 'integer',
         'room_id' => 'integer',
+        'phone_numbers' => 'array',
+        'emails' => 'array',
     ];
 
     public function house()

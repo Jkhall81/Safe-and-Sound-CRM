@@ -6,6 +6,7 @@ export const TextArea = ({
     onChange,
     rows = 8,
     placeholder = "",
+    ...props
 }) => {
     return (
         <div className="mb-5">
@@ -23,6 +24,7 @@ export const TextArea = ({
                 onChange={onChange}
                 rows={rows}
                 className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+                {...props}
             >
                 {placeholder}
             </textarea>

@@ -20,8 +20,8 @@ return new class extends Migration
             $table->date('move_in_date');
             $table->date('move_out_date')->nullable();
             $table->enum('status', ['active', 'on_leave', 'discharged']);
-            $table->string('phone_number');
-            $table->string('email');
+            $table->json('phone_number');
+            $table->json('email');
             $table->timestamps();
         });
     }
