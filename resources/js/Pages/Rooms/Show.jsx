@@ -1,6 +1,8 @@
 import { usePage, useForm, router } from "@inertiajs/react";
 import { toast } from "sonner";
 import HouseLayout from "@/Layouts/HouseLayout";
+import { formatPhoneNumber } from "@/lib/utils";
+import { getFormattedEmail } from "@/lib/utils";
 
 export default function Show() {
     const { room, houseSlug } = usePage().props;
@@ -85,7 +87,29 @@ export default function Show() {
                         type="text"
                         id="resident_phone"
                         name="resident_phone"
-                        value={data.resident_phone}
+                        value={(() => {
+                            try {
+                                // Try parsing the phone_number if it's a string
+                                const parsedPhoneNumbers = JSON.parse(
+                                    data.resident_phone
+                                );
+
+                                // If it's an array of objects, we map and find the "Mobile" type
+                                const mobileNumber = parsedPhoneNumbers
+                                    .map((obj) =>
+                                        obj.type === "Mobile" ? obj.value : null
+                                    )
+                                    .filter((value) => value !== null)[0];
+
+                                // Format the phone number if it's available
+                                if (mobileNumber) {
+                                    return formatPhoneNumber(mobileNumber);
+                                }
+                            } catch (error) {
+                                // If it's not a valid JSON string, we return the plain string
+                                return formatPhoneNumber(data.resident_phone); // Plain string value like '123.123.1122'
+                            }
+                        })()}
                         onChange={(e) =>
                             setData("resident_phone", e.target.value)
                         }
@@ -111,7 +135,7 @@ export default function Show() {
                         id="resident_email"
                         name="resident_email"
                         required
-                        value={data.resident_email}
+                        value={getFormattedEmail(data.resident_email)}
                         onChange={(e) =>
                             setData("resident_email", e.target.value)
                         }

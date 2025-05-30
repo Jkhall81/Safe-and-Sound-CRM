@@ -1,4 +1,5 @@
 import { router } from "@inertiajs/react";
+import { formatPhoneNumber } from "@/lib/utils";
 
 export const HouseResidentTable = ({ house }) => {
     return (
@@ -30,9 +31,7 @@ export const HouseResidentTable = ({ house }) => {
                             return (
                                 <tr
                                     key={room.id + "-empty"}
-                                    onClick={() =>
-                                        router.visit(`/rooms/${room.id}`)
-                                    }
+                                    onClick={() => {}}
                                     className="cursor-pointer odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200 hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors"
                                 >
                                     <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -64,8 +63,42 @@ export const HouseResidentTable = ({ house }) => {
                                 </td>
                                 <td className="px-6 py-4">{resident.name}</td>
                                 <td className="px-6 py-4">
-                                    {resident.phone_number}
+                                    {(() => {
+                                        try {
+                                            // Try parsing the phone_number if it's a string
+                                            const parsedPhoneNumbers =
+                                                JSON.parse(
+                                                    resident.phone_number
+                                                );
+
+                                            // If it's an array of objects, we map and find the "Mobile" type
+                                            const mobileNumber =
+                                                parsedPhoneNumbers
+                                                    .map((obj) =>
+                                                        obj.type === "Mobile"
+                                                            ? obj.value
+                                                            : null
+                                                    )
+                                                    .filter(
+                                                        (value) =>
+                                                            value !== null
+                                                    )[0];
+
+                                            // Format the phone number if it's available
+                                            if (mobileNumber) {
+                                                return formatPhoneNumber(
+                                                    mobileNumber
+                                                );
+                                            }
+                                        } catch (error) {
+                                            // If it's not a valid JSON string, we return the plain string
+                                            return formatPhoneNumber(
+                                                resident.phone_number
+                                            ); // Plain string value like '123.123.1122'
+                                        }
+                                    })()}
                                 </td>
+
                                 <td className="px-6 py-4">
                                     ${parseFloat(room.weekly_price).toFixed(2)}
                                 </td>
