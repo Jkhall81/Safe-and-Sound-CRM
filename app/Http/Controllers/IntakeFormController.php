@@ -56,6 +56,12 @@ class IntakeFormController extends Controller
             'emergency_contact_relationship' => 'required|string',
         ]);
 
+        $vacantRoom = $house->rooms()->where('is_occupied', false)->first();
+
+        if (!$vacantRoom) {
+            return response()->json(['error' => 'No vacant rooms available'], 400);
+        }
+
         $resident = Resident::create([
             'house_id' => $house->id,
             'name' => $validated['full_name'],
@@ -63,21 +69,14 @@ class IntakeFormController extends Controller
             'move_in_date' => $validated['move_in_date'],
             'move_out_date' => null,
             'status' => 'active',
-            'phone_number' => $validated['phones'],
-            'email' => $validated['emails'],
+            'phone_number' => json_encode($validated['phones']),
+            'email' => json_encode($validated['email']),
+            'room_id' => $vacantRoom->id,
         ]);
 
-        $vacantRoom = $house->rooms()->where('is_occupied', false)->first();
 
-        if ($vacantRoom) {
-            $resident->room_id = $vacantRoom->id;
-            $resident->save();
-
-            $vacantRoom->update(['is_occupied' => true]);
-            $house->increment('current_residents_count');
-        } else {
-            return response()->json(['error' => 'No vacant rooms available'], 400);
-        }
+        $vacantRoom->update(['is_occupied' => true]);
+        $house->increment('current_residents_count');
 
         // Make the record
         $intakeForm = IntakeForm::create([

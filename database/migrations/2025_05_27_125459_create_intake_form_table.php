@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('intake_form', function (Blueprint $table) {
             $table->id();
             $table->foreignId('house_id')->constrained('houses');
-            $table->foreignId('resident_id')->constrained('houses');
+            $table->foreignId('resident_id')->constrained('residents');
             $table->string('full_name');
             $table->date('dob');
             $table->json('phones');
@@ -41,7 +41,7 @@ return new class extends Migration
             $table->text('mental_illness_details')->nullable();
             $table->string('emergency_contact_name')->nullable();
             $table->json('emergency_contact_phone')->nullable();
-            $table->string('emergency_contact_relationship')->jnullable();
+            $table->string('emergency_contact_relationship')->nullable();
             $table->date('move_in_date')->nullable();
             $table->timestamps();
         });
