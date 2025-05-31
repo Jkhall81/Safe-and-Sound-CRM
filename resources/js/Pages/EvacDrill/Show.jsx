@@ -111,9 +111,7 @@ export default function Show() {
                         <MyDatePicker
                             className="w-[390px] mr-8"
                             value={data.drill_date}
-                            onChange={(e) =>
-                                setData("drill_date", e.target.value)
-                            }
+                            onChange={(date) => setData("drill_date", date)}
                         />
                         <input
                             id="drill_time"
@@ -176,7 +174,9 @@ export default function Show() {
                     radioLabels={["Verbal Notification", "Smoke Detector"]}
                     required
                     value={data.alarm_activation}
-                    onChange={(e) => setData("type_of_drill", e.target.value)}
+                    onChange={(e) =>
+                        setData("alarm_activation", e.target.value)
+                    }
                 />
 
                 {/* Staff Response */}

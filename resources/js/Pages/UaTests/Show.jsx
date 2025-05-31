@@ -37,7 +37,7 @@ export default function Show() {
             </h1>
             <form
                 onSubmit={handleSubmit}
-                className="max-w-md mt-10 rounded-2xl bg-gray-950 p-10 mx-auto min-h-[80vh]"
+                className="max-w-4xl mt-10 rounded-2xl bg-gray-950 p-10 mx-auto min-h-[80vh]"
             >
                 {/* Resident Name */}
                 <Select
