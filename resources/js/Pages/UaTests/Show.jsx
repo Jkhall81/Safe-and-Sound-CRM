@@ -32,6 +32,9 @@ export default function Show() {
 
     return (
         <HouseLayout>
+            <h1 className="text-center text-4xl mt-10">
+                {house.name} UA Result Submission
+            </h1>
             <form
                 onSubmit={handleSubmit}
                 className="max-w-md mt-10 rounded-2xl bg-gray-950 p-10 mx-auto min-h-[80vh]"

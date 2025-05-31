@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\EvacDrill;
 
 class House extends Model
 {
@@ -48,6 +49,11 @@ class House extends Model
     public function activeManagers()
     {
         return $this->hasMany(HouseManager::class)->whereNull('end_date');
+    }
+
+    public function evacDrills()
+    {
+        return $this->hasMany(EvacDrill::class);
     }
 
     // Scopes

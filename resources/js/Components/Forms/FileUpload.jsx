@@ -15,7 +15,7 @@ export const FileUpload = ({
                 htmlFor={id}
                 className="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
             >
-                Attach Files
+                {label}
             </label>
             <input
                 id={id}

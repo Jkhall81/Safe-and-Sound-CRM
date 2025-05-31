@@ -21,7 +21,7 @@ export function HouseSidebar({ house }) {
         },
         {
             title: "Evac Drill",
-            href: "#",
+            href: route("evac.show", house.slug),
         },
         {
             title: "Grievance Form",

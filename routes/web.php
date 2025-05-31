@@ -45,12 +45,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/ua-tests/{house}', [UaTestController::class, 'store'])->name('ua.store');
 
     // Program Fee Tracker
-    Route::get('/program-fee', [ProgramFeeController::class, 'create'])->name('program-fee.create');
+    Route::get('/program-fee', [ProgramFeeController::class, 'show'])->name('program-fee.show');
     Route::post('/program-fee', [ProgramFeeController::class, 'store'])->name('program-fee.store');
 
     // Evac Drill
-    Route::get('/evac-drill', [EvacDrillController::class, 'create'])->name('evac.create');
-    Route::post('/evac-drill', [EvacDrillController::class, 'store'])->name('evac.store');
+    Route::get('/evac-drill/{house}', [EvacDrillController::class, 'show'])->name('evac.show');
+    Route::post('/evac-drill/{house}', [EvacDrillController::class, 'store'])->name('evac.store');
 
     // Grievance Form
     Route::get('/grievance', [GrievanceController::class, 'create'])->name('grievance.create');
