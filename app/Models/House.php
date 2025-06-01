@@ -62,6 +62,11 @@ class House extends Model
         return $this->hasMany(Grievance::class);
     }
 
+    public function geoCocs()
+    {
+        return $this->hasMany(\App\Models\GeoCoc::class);
+    }
+
     // Scopes
     public function scopeActive($query)
     {

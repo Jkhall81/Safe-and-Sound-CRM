@@ -29,7 +29,7 @@ export function HouseSidebar({ house }) {
         },
         {
             title: "GEO/COC Form",
-            href: "#",
+            href: route("geo-coc.show", house.slug),
         },
         {
             title: "Maintenance Form",
@@ -37,7 +37,7 @@ export function HouseSidebar({ house }) {
         },
     ];
     return (
-        <aside className="w-[200px] rounded-tr-3xl bg-gray-800 pt-[200px] px-4 flex justify-center">
+        <aside className="w-[200px] mt-[106px] rounded-tr-3xl bg-gray-800 pt-[200px] px-4 flex justify-center">
             <div className="flex flex-col space-y-4">
                 {items.map((item, index) => {
                     const isActive =

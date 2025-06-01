@@ -15,6 +15,7 @@ class GrievanceController extends Controller
             'house' => $house,
         ]);
     }
+
     public function store(Request $request, House $house)
     {
         $validated = $request->validate([
