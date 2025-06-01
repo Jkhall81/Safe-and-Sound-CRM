@@ -95,9 +95,12 @@ export default function Show() {
 
     return (
         <HouseLayout>
+            <h1 className="text-center text-4xl mt-6">
+                {house.name} Intake Form
+            </h1>
             <form
                 onSubmit={handleSubmit}
-                className="mx-auto mt-10 rounded-2xl bg-gray-950 p-10 pt-[100px] max-w-4xl space-y-8 min-h-[80vh]"
+                className="mx-auto mt-10 mb-20 rounded-2xl bg-gray-950 p-10 pt-[100px] max-w-4xl space-y-8 min-h-[80vh]"
             >
                 <h1>{house.name}</h1>
 

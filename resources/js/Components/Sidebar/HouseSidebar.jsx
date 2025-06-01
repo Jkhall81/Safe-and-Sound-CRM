@@ -33,7 +33,7 @@ export function HouseSidebar({ house }) {
         },
         {
             title: "Maintenance Form",
-            href: "#",
+            href: route('maintenance.show', house.slug),
         },
     ];
     return (

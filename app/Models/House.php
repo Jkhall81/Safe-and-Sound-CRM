@@ -67,6 +67,11 @@ class House extends Model
         return $this->hasMany(\App\Models\GeoCoc::class);
     }
 
+    public function maintenanceReports()
+    {
+        return $this->hasMany(Maintenance::class);
+    }
+
     // Scopes
     public function scopeActive($query)
     {

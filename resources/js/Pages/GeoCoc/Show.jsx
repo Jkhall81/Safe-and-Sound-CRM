@@ -49,10 +49,10 @@ export default function Show() {
 
     return (
         <HouseLayout>
-            <h1 className="text-4xl text-center mt-10">{house.name} GEO/COC</h1>
+            <h1 className="text-4xl text-center mt-6">{house.name} GEO/COC</h1>
             <form
                 onSubmit={handleSubmit}
-                className="mx-auto mt-10 rounded-2xl bg-gray-950 p-10 pt-[100px] w-[896px] space-y-8 min-h-[80vh]"
+                className="mx-auto mt-10 mb-10 rounded-2xl bg-gray-950 p-10 pt-[100px] w-[896px] space-y-8 min-h-[80vh]"
             >
                 {/* First Name */}
                 <TextInput

@@ -61,8 +61,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/geo-coc/{house}', [GeoCocController::class, 'store'])->name('geo-coc.store');
 
     // Maintenance Form
-    Route::get('/maintenance', [MaintenanceController::class, 'create'])->name('maintenance.create');
-    Route::post('/maintenance', [MaintenanceController::class, 'store'])->name('maintenance.store');
+    Route::get('/maintenance/{house}', [MaintenanceController::class, 'show'])->name('maintenance.show');
+    Route::post('/maintenance/{house}', [MaintenanceController::class, 'store'])->name('maintenance.store');
 });
 
 Route::middleware('auth')->group(function () {
