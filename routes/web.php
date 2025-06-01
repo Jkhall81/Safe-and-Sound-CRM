@@ -53,8 +53,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/evac-drill/{house}', [EvacDrillController::class, 'store'])->name('evac.store');
 
     // Grievance Form
-    Route::get('/grievance', [GrievanceController::class, 'create'])->name('grievance.create');
-    Route::post('/grievance', [GrievanceController::class, 'store'])->name('grievance.store');
+    Route::get('/grievance/{house}', [GrievanceController::class, 'show'])->name('grievance.show');
+    Route::post('/grievance/{house}', [GrievanceController::class, 'store'])->name('grievance.store');
 
     // GEO/COC Form
     Route::get('/geo-coc', [GeoCocController::class, 'create'])->name('geo-coc.create');

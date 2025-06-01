@@ -25,7 +25,7 @@ export function HouseSidebar({ house }) {
         },
         {
             title: "Grievance Form",
-            href: "#",
+            href: route("grievance.show", house.slug),
         },
         {
             title: "GEO/COC Form",
