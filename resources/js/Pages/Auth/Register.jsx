@@ -26,7 +26,7 @@ export default function Register() {
             <Head title="Register" />
 
             <form
-                className="min-h-[70vh] px-10 max-w-[800px] mx-auto"
+                className="min-h-[70vh] text-black px-10 max-w-[800px] mx-auto"
                 onSubmit={submit}
             >
                 <div>
