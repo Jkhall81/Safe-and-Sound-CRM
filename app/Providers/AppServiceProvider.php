@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Routing\UrlGenerator;
 use Inertia\Inertia;
 use App\Models\House;
 
@@ -20,8 +21,12 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
+    public function boot(UrlGenerator $url): void
     {
+        if (env('APP_ENV') == 'production') {
+            $url->forceScheme('https');
+        }
+
         Vite::prefetch(concurrency: 3);
 
         Inertia::share([
