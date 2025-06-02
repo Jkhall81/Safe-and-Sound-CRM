@@ -4,7 +4,7 @@ import {
     DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/Components/ui/dropdown-menu";
 import { Link } from "@inertiajs/react";
 
 export function HouseDropDown({ triggerText, houses }) {
