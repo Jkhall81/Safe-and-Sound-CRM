@@ -8,7 +8,7 @@ import { HouseSidebar } from "@/Components/Sidebar/HouseSidebar";
 export default function HouseLayout({ children }) {
     const { house } = usePage().props;
     return (
-        <div className="dark:bg-gray-900 min-h-screen">
+        <div className="dark:bg-gray-900 min-h-screen w-screen max-w-screen overflow-x-hidden">
             <Navbar />
             <Toaster />
             <div className="flex">

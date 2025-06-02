@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('house_id')->constrained();
             $table->foreignId('room_id')->constrained();
+            $table->string('room_label')->nullable();
             $table->string('name');
             $table->date('dob');
             $table->date('move_in_date');

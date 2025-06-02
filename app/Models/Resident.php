@@ -15,6 +15,7 @@ class Resident extends Model
         'dob',
         'house_id',
         'room_id',
+        'room_label',
         'move_in_date',
         'move_out_date',
         'status',

@@ -22,12 +22,11 @@ export const TextArea = ({
                 name={id}
                 value={value}
                 onChange={onChange}
+                placeholder={placeholder}
                 rows={rows}
                 className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:text-white"
                 {...props}
-            >
-                {placeholder}
-            </textarea>
+            ></textarea>
         </div>
     );
 };

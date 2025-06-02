@@ -17,7 +17,7 @@ export function HouseSidebar({ house }) {
         },
         {
             title: "Program Fee Tracker",
-            href: "#",
+            href: route("program-fee.show", house.slug),
         },
         {
             title: "Evac Drill",
@@ -33,7 +33,7 @@ export function HouseSidebar({ house }) {
         },
         {
             title: "Maintenance Form",
-            href: route('maintenance.show', house.slug),
+            href: route("maintenance.show", house.slug),
         },
     ];
     return (

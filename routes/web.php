@@ -14,6 +14,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+
 Route::get('/', function () {
     return Inertia::render('LandingPage', [
         'canLogin' => Route::has('login'),
@@ -34,6 +35,11 @@ Route::get('/house/{house}', [HouseController::class, 'show'])->middleware(['aut
 Route::get('/rooms/{room}', [RoomController::class, 'show'])->middleware(['auth', 'verified'])->name('room.show');
 Route::post('/rooms/{room}/resident', [RoomController::class, 'updateResident'])->middleware(['auth', 'verified'])->name('room.resident.update');
 
+// Public Intake
+Route::get('/intake/{token}', [IntakeFormController::class, 'publicShow'])->name('intake.public.show');
+Route::post('/intake/{token}', [IntakeFormController::class, 'publicStore'])->name('intake.public.store');
+
+
 // Forms
 Route::middleware(['auth', 'verified'])->group(function () {
     // Intake Form
@@ -45,8 +51,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/ua-tests/{house}', [UaTestController::class, 'store'])->name('ua.store');
 
     // Program Fee Tracker
-    Route::get('/program-fee', [ProgramFeeController::class, 'show'])->name('program-fee.show');
-    Route::post('/program-fee', [ProgramFeeController::class, 'store'])->name('program-fee.store');
+    Route::get('/program-fee/{house}', [ProgramFeeController::class, 'show'])->name('program-fee.show');
+    Route::post('/program-fee/{house}', [ProgramFeeController::class, 'store'])->name('program-fee.store');
 
     // Evac Drill
     Route::get('/evac-drill/{house}', [EvacDrillController::class, 'show'])->name('evac.show');

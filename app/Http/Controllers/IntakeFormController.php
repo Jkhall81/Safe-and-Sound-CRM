@@ -6,22 +6,14 @@ use Illuminate\Http\Request;
 use App\Models\House;
 use App\Models\IntakeForm;
 use App\Models\Resident;
+use App\Models\IntakeLink;
 use Inertia\Inertia;
 
 class IntakeFormController extends Controller
 {
     //
-    public function show(House $house)
+    private function handleStore(Request $request, House $house)
     {
-        return inertia('IntakeForm/Show', [
-            'house' => $house,
-        ]);
-    }
-
-
-    public function store(Request $request, House $house)
-    {
-
         // Big form need validate DATA
         $validated = $request->validate([
             'full_name' => 'required|string|max:255',
@@ -109,5 +101,39 @@ class IntakeFormController extends Controller
             'emergency_contact_relationship' => $validated['emergency_contact_relationship'],
             'resident_id' => $resident->id,
         ]);
+    }
+
+    public function show(House $house)
+    {
+        return inertia('IntakeForm/Show', [
+            'house' => $house,
+        ]);
+    }
+
+    public function publicShow($token)
+    {
+        $intakeLink = IntakeLink::where('token', $token)->whereNull('used_at')->firstOrFail();
+
+        $house = $intakeLink->house;
+
+        return Inertia::render('IntakeForm/Show', [
+            'house' => $house,
+            'publicToken' => $token,
+        ]);
+    }
+
+
+    public function store(Request $request, House $house)
+    {
+        $this->handleStore($request, $house);
+    }
+
+    public function publicStore(Request $request, $token)
+    {
+        $intakeLink = IntakeLink::where('token', $token)->whereNull('used_at')->firstOrFail();
+
+        $this->handleStore($request, $intakeLink->house);
+
+        $intakeLink->update(['used_at' => now()]);
     }
 }

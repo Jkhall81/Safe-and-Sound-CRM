@@ -50,6 +50,10 @@ class DatabaseSeeder extends Seeder
         HouseManager::create([
             'user_id' => $manager->id,
             'house_id' => $house->id,
+            'first_name' => "Jason",
+            'last_name' => "Hall",
+            'email' => "jason.kei.hall@gmail.com",
+            'phone_number' => '623-206-2944',
             'start_date' => now()->subMonth(),
             'is_cpr_certified' => true,
             'cpr_certification_number' => 'CPR-TEST-123',

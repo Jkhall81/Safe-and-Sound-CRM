@@ -24,7 +24,7 @@ class House extends Model
 
     public function manager()
     {
-        return $this->hasOne(HouseManager::class);
+        return $this->belongsTo(HouseManager::class, 'house_manager_id');
     }
 
     public function licenses()

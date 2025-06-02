@@ -15,6 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('house_id')->constrained()->unique();
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('phone_number');
+            $table->string('email');
             $table->date('start_date');
             $table->date('end_date')->nullable();
             $table->boolean('is_cpr_certified')->default(false);
