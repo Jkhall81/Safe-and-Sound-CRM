@@ -52,7 +52,8 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'https://safe-and-sound-crm.onrender.com'),
+    // 'url' => env('APP_URL', 'https://safe-and-sound-crm.onrender.com'),
+    'url' => env('APP_URL', 'http://localhost'),
 
     /*
     |--------------------------------------------------------------------------

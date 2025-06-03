@@ -112,7 +112,7 @@ class IntakeFormController extends Controller
 
     public function publicShow($token)
     {
-        $intakeLink = IntakeLink::where('token', $token)->whereNull('used_at')->firstOrFail();
+        $intakeLink = IntakeLink::where('token', $token)->where('used', 0)->firstOrFail();
 
         $house = $intakeLink->house;
 
@@ -130,10 +130,10 @@ class IntakeFormController extends Controller
 
     public function publicStore(Request $request, $token)
     {
-        $intakeLink = IntakeLink::where('token', $token)->whereNull('used_at')->firstOrFail();
+        $intakeLink = IntakeLink::where('token', $token)->where('used', 0)->where('expires_at', '>', now())->firstOrFail();
 
         $this->handleStore($request, $intakeLink->house);
 
-        $intakeLink->update(['used_at' => now()]);
+        $intakeLink->update(['used' => 1]);
     }
 }

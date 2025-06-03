@@ -7,6 +7,7 @@ import { MyDatePicker } from "@/Components/UaTests/MyDatePicker";
 import { MultiSelectInput } from "@/Components/Forms/MultiSelectInput";
 import { Select } from "@/Components/Forms/Select";
 import { TextArea } from "@/Components/Forms/TextArea";
+import GenerateIntakeLinkbutton from "@/Components/Forms/GenerateIntakeLInkButton";
 
 export default function Show() {
     const { house } = usePage().props;
@@ -102,6 +103,7 @@ export default function Show() {
                 onSubmit={handleSubmit}
                 className="mx-auto mt-10 mb-20 rounded-2xl bg-gray-950 p-10 pt-[100px] max-w-4xl space-y-8 min-h-[80vh]"
             >
+                <GenerateIntakeLinkbutton houseId={house.id} />
                 <h1>{house.name}</h1>
 
                 {/* Resident Full Name ** */}

@@ -38,14 +38,14 @@ export default function GenerateIntakeLinkbutton({ houseId }) {
 
             {generatedUrl && (
                 <div className="mt-4">
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-lg font-medium text-gray-300">
                         Public Link
                     </label>
                     <input
                         type="text"
                         value={generatedUrl}
                         readOnly
-                        className="w-full px-3 py-2 border rounded text-sm"
+                        className="w-full text-black px-3 py-2 border rounded text-sm"
                         onClick={(e) => e.target.select()}
                     />
                 </div>
