@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('program_fees', function (Blueprint $table) {
+        Schema::create('program_fee_payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('house_id')->constrained();
-            $table->date('program_fee_date');
-            $table->text('notes')->nullable();
-            $table->decimal('total_collected', 10, 2);
-            $table->unsignedInteger('resident_count');
+            $table->foreignId('program_fee_id')->constrained();
+            $table->foreignId('resident_id')->constrained();
+            $table->decimal('amount', 10, 2);
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('program_fees');
+        Schema::dropIfExists('program_fee_payments');
     }
 };

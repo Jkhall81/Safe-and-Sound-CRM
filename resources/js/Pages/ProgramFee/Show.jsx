@@ -10,6 +10,8 @@ export default function Show() {
     const { house } = usePage().props;
     const { data, setData, post, processing, errors, reset } = useForm({
         program_fee_date: "",
+        program_fee_notes: "",
+        amounts_collected: {},
     });
 
     const [programFeeDueError, setProgramFeeDueError] = useState("");
@@ -74,7 +76,7 @@ export default function Show() {
                         htmlFor="program_fee_date"
                         className="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
                     >
-                        Program Fee Due
+                        Program Fee Due Date
                     </label>
                     <p className="text-sm mb-2">
                         Enter Program Fee Due Date (Friday due)
@@ -104,7 +106,7 @@ export default function Show() {
                                     <p>{resident.room.weekly_price}</p>
                                 </div>
                                 <div className="flex bg-gray-500 p-2 mb-2">
-                                    <span className="mr-2">Room Number:</span>
+                                    <span className="mr-2">Resident Name:</span>
                                     <p className="text-neutral-900 font-semibold">
                                         {resident.name}
                                     </p>
@@ -113,7 +115,19 @@ export default function Show() {
                             <label className="p-2" htmlFor="">
                                 Amount Collected
                             </label>
-                            <TextInput />
+                            <TextInput
+                                id={`amount=${resident.id}`}
+                                type="number"
+                                value={
+                                    data.amounts_collected[resident.id] || ""
+                                }
+                                onChange={(e) =>
+                                    setData("amounts_collected", {
+                                        ...data.amounts_collected,
+                                        [resident.id]: e.target.value,
+                                    })
+                                }
+                            />
                         </div>
                     );
                 })}
@@ -141,14 +155,30 @@ export default function Show() {
                     </p>
                 </div>
 
+                {/* Total Amount Collected */}
+                <div className="bg-gray-900 p-6 rounded-lg text-white">
+                    <p className="text-lg font-semibold mb-2">
+                        Total Collected:
+                    </p>
+                    <p className="text-2xl">
+                        $
+                        {Object.values(data.amounts_collected)
+                            .reduce((total, value) => {
+                                const parsed = parseFloat(value);
+                                return total + (isNaN(parsed) ? 0 : parsed);
+                            }, 0)
+                            .toFixed(2)}
+                    </p>
+                </div>
+
                 {/* Notes ** */}
                 <TextArea
-                    id="heating_and_cooling_notes"
+                    id="program_fee_notes"
                     required
                     label="Notes"
-                    value={data.heating_and_cooling_notes}
+                    value={data.program_fee_notes}
                     onChange={(e) =>
-                        setData("heating_and_cooling_notes", e.target.value)
+                        setData("program_fee_notes", e.target.value)
                     }
                 />
 
