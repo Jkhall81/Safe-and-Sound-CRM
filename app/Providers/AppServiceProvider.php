@@ -23,9 +23,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(UrlGenerator $url): void
     {
-        if (env('APP_ENV') == 'production') {
-            $url->forceScheme('https');
-        }
+        // The below code needs to be UNCOMMENTED in production.  If your production environment uses https you need the below code
+        // for the front end and backend to be able to communicate.
+
+        // if (env('APP_ENV') == 'production') {
+        //     $url->forceScheme('https');
+        // }
 
         Vite::prefetch(concurrency: 3);
 
