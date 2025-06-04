@@ -32,10 +32,10 @@ export default function Show() {
             return;
         }
 
-        post(route("maintenance.store", house.slug), {
+        post(route("program-fee.store", house.slug), {
             forceFormData: true,
             onSuccess: () => {
-                toast.success("Evacuation Drill Data uploaded successfully!");
+                toast.success("Program Fee data uploaded successfully!");
 
                 setTimeout(() => {
                     router.visit(route("house.show", house.slug));
