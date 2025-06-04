@@ -64,8 +64,9 @@ class HouseFactory extends Factory
     {
         return $this->afterCreating(function (\App\Models\House $house) {
 
+            $user = \App\Models\User::find($house->house_manager_id);
 
-            HouseManager::create([
+            $manager = HouseManager::create([
                 'user_id' => $house->house_manager_id,
                 'house_id' => $house->id,
                 'first_name' => fake()->firstName(),
@@ -78,6 +79,9 @@ class HouseFactory extends Factory
                 'cpr_certification_number' => strtoupper(fake()->bothify('CPR-#####')),
                 'cpr_expiration_date' => now()->addYears(rand(1, 3)),
             ]);
+
+            $house->house_manager_id = $manager->id;
+            $house->save();
 
 
             $remainingCapacity = $house->max_residents;

@@ -47,8 +47,6 @@ export default function Show() {
     const [sobrietyDateError, setSobrietyDateError] = useState("");
     const [moveInDateError, setMoveInDateError] = useState("");
 
-    console.log("DOB Error", dobError);
-
     const handleSubmit = (e) => {
         e.preventDefault();
 

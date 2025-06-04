@@ -10,8 +10,8 @@ export default function Show() {
         totalActiveResidents,
         totalWeeklyPriceOccupiedRooms,
     } = usePage().props;
-    console.log("house", house);
-    console.log(totalRooms);
+
+    console.log(house);
 
     return (
         <HouseLayout>
