@@ -1,3 +1,3 @@
 1.  For the house residents table.  I want blanks for all empty rooms.  Blank rows.  So the number of rows in the table matches the total capacity.
-2.  QR code for the public intake link.
+2.  **** QR code for the public intake link.
 3.  Program Fee Due date check for a date of Friday, error message if not.

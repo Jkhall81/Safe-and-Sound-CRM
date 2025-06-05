@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { ShareQRCode } from "./ShareQRCode";
+
 import axios from "axios";
 
 export default function GenerateIntakeLinkbutton({ houseId }) {
@@ -48,6 +50,9 @@ export default function GenerateIntakeLinkbutton({ houseId }) {
                         className="w-full text-black px-3 py-2 border rounded text-sm"
                         onClick={(e) => e.target.select()}
                     />
+                    <div className="flex items-center justify-center mt-8">
+                        <ShareQRCode url={generatedUrl} />
+                    </div>
                 </div>
             )}
         </div>
